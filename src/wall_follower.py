@@ -28,17 +28,10 @@ class Follow():
             if distanceR90 == 0 or distanceL90 < distanceR90 and distanceL90 > 0:
 
                 if distanceL45 == 0:
-                    distanceL45 = 2 * distanceL90
+                    distanceR45 = self.distance_extrapolation(distanceL45, distanceL90)
 
                 else:
-                    if distanceL15 == 0:
-                        self.obstacle_offset_distance = 0
-                    elif distanceL15 <= 0.4:
-                        self.obstacle_offset_distance = 0.3
-                    elif distanceL15 <= 0.8:
-                        self.obstacle_offset_distance = 0.15
-                    else:
-                        self.obstacle_offset_distance = 0
+                    self.obstacle_offset(distanceL15)
 
                 p_distance = distanceL90
                 a_distance = distanceL45
@@ -47,17 +40,10 @@ class Follow():
             else:
 
                 if distanceR45 == 0:
-                    distanceR45 = 2 * distanceR90
+                    distanceR45 = self.distance_extrapolation(distanceR45, distanceR90)
 
                 else:
-                    if distanceR15 == 0:
-                        self.obstacle_offset_distance = 0
-                    elif distanceR15 <= 0.4:
-                        self.obstacle_offset_distance = 0.3
-                    elif distanceR15 <= 0.8:
-                        self.obstacle_offset_distance = 0.15
-                    else:
-                        self.obstacle_offset_distance = 0
+                    self.obstacle_offset(distanceR15)
 
                 p_distance = distanceR90
                 a_distance = distanceR45
@@ -73,6 +59,37 @@ class Follow():
         print 'obstacle offset: %f' % self.obstacle_offset_distance
         print '------'
 
+    def obstacle_offset(self, distance):
+        if distance == 0:
+            self.obstacle_offset_distance = 0
+        elif distance <= 0.4:
+            self.obstacle_offset_distance = 0.3
+        elif distance <= 0.8:
+            self.obstacle_offset_distance = 0.15
+        else:
+            self.obstacle_offset_distance = 0
+        
+    def distance_extrapolation(self, angle45, angle90):
+        angle45 = 2 * angle90
+        return angle45
+
+    def direction_filter(self):
+        angular_velocity = -1 * (self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance) if self.isLeft \
+            else self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance
+        return angular_velocity
+
+    def invalid_reading_filter(self, angular_velocity):
+        if abs(angular_velocity) != self.safe_distance:
+            self.max_av_cap(angular_velocity)
+
+    def max_av_cap(self, angular_velocity):
+        if angular_velocity > 0.5:
+            angular_velocity = 0.5
+
+        elif angular_velocity < -0.5:
+            angular_velocity = -0.5
+        self.twist.angular.z = angular_velocity
+
     def __init__(self):
 
         debug = True
@@ -80,9 +97,9 @@ class Follow():
         scan_sub = rospy.Subscriber('scan', LaserScan, self.scan_callback, queue_size=1)
         cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 
-        self.safe_distance = 0.2
-        twist = Twist()
-        twist.linear.x = 0.10
+        self.safe_distance = 0.3
+        self.twist = Twist()
+        self.twist.linear.x = 0.10
 
         self.angular_offset_distance = 0
         self.linear_offset_distance = 0
@@ -92,20 +109,11 @@ class Follow():
 
         while not rospy.is_shutdown():
             
-            angular_velocity = -1 * (self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance) if self.isLeft \
-                else self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance
+            angular_velocity = self.direction_filter()
             
-            if abs(angular_velocity) != self.safe_distance:
+            angular_velocity = self.invalid_reading_filter(angular_velocity)
 
-                if angular_velocity > 0.5:
-                    angular_velocity = 0.5
-
-                elif angular_velocity < -0.5:
-                    angular_velocity = -0.5
-
-                twist.angular.z = angular_velocity
-
-            cmd_vel_pub.publish(twist)
+            cmd_vel_pub.publish(self.twist)
 
             rate.sleep()
 
