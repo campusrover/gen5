@@ -77,6 +77,8 @@ We use a slightly more sophisticated approach. The robot reports what position a
   
 ### Tasks
 - write the out_and_back_odom.py
+- write rotate_server.py
+- write run_server.py
 - publish to `/cmd_vel` at a slow speed (e.g. 0.1 meters per second)
 - write a launch file for your program
 - test it in simulation

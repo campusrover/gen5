@@ -28,15 +28,15 @@ while time.time() - start < run_time:
     cmd_vel_pub.publish(forward_command)
     rate.sleep()
 
-rotateClient = actionlib.SimpleActionClient('rotate', RotateAction)
-rotateClient.wait_for_server()
+rotate_client = actionlib.SimpleActionClient('rotate', RotateAction)
+rotate_client.wait_for_server()
 goal = RotateGoal
-goal.degrees_to_rotate = 180
+goal.degrees_to_rotate = rotate_angle
 goal.angular_velocity = abs(math.radians(rotate_angle) / rotate_time)
 
-rotateClient.send_goal(goal)
+rotate_client.send_goal(goal)
 # Wait for confirmation
-rotateClient.wait_for_result()
+rotate_client.wait_for_result()
 
 start = time.time() # reset time
 while time.time() - start < run_time:
@@ -44,9 +44,9 @@ while time.time() - start < run_time:
     cmd_vel_pub.publish(forward_command)
     rate.sleep()
 
-rotateClient.send_goal(goal)
+rotate_client.send_goal(goal)
 # Wait for confirmation
-rotateClient.wait_for_result()
+rotate_client.wait_for_result()
 
 cmd_vel_pub.publish(Twist()) # stops the robot
 
