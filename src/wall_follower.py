@@ -11,17 +11,10 @@ class Follow():
 
         distanceL15 = msg.ranges[14]
         distanceR15 = msg.ranges[344]
-
         distanceL90 = msg.ranges[89]
         distanceR90 = msg.ranges[269]
         distanceL45 = msg.ranges[44]
         distanceR45 = msg.ranges[314]
-
-        print 'L90: %f' % distanceL90
-        print 'L45: %f' % distanceL45
-        print 'R90: %f' % distanceR90
-        print 'R45: %f' % distanceR45
-        print '------'
 
         if distanceL90 != 0 or distanceR90 != 0:
 
@@ -29,7 +22,6 @@ class Follow():
 
                 if distanceL45 == 0:
                     distanceR45 = self.distance_extrapolation(distanceL45, distanceL90)
-
                 else:
                     self.obstacle_offset(distanceL15)
 
@@ -41,7 +33,6 @@ class Follow():
 
                 if distanceR45 == 0:
                     distanceR45 = self.distance_extrapolation(distanceR45, distanceR90)
-
                 else:
                     self.obstacle_offset(distanceR15)
 
@@ -51,13 +42,6 @@ class Follow():
 
             self.linear_offset_distance = self.safe_distance - p_distance
             self.angular_offset_distance = p_distance * math.sqrt(2) - a_distance
-        
-
-            
-        print 'linear offset: %f' % self.linear_offset_distance
-        print 'angular offset: %f' % self.angular_offset_distance
-        print 'obstacle offset: %f' % self.obstacle_offset_distance
-        print '------'
 
     def obstacle_offset(self, distance):
         if distance == 0:
@@ -92,8 +76,6 @@ class Follow():
 
     def __init__(self):
 
-        debug = True
-
         scan_sub = rospy.Subscriber('scan', LaserScan, self.scan_callback, queue_size=1)
         cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 
@@ -105,14 +87,13 @@ class Follow():
         self.linear_offset_distance = 0
         self.obstacle_offset_distance = 0
         self.isLeft = True
+
         rate = rospy.Rate(10)
 
         while not rospy.is_shutdown():
             
             angular_velocity = self.direction_filter()
-            
             angular_velocity = self.invalid_reading_filter(angular_velocity)
-
             cmd_vel_pub.publish(self.twist)
 
             rate.sleep()
