@@ -1,8 +1,8 @@
 # Part 1: the goal, to be sent by the client
 #
 # Degree the robots need to rotate and the velocity
-float32 degrees_to_rotate
-float32 angular_velocity
+float32 distance
+float32 linear_velocity
 ---
 # Part 2: the result, to be sent by the server upon completion
 ---

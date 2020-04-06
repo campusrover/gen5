@@ -31,20 +31,14 @@ def do_rotate(goal):
         while z_rotation < target_angle:
             rotate_msg.angular.z = goal.angular_velocity
             rotation_publisher.publish(rotate_msg)
-            print "Rotation Signal given"
-            print "current angle, %s" % z_rotation
             rate.sleep()
     else:
         while z_rotation < target_angle or z_rotation_turned == False:
             rotate_msg.angular.z = goal.angular_velocity
             rotation_publisher.publish(rotate_msg)
-            print "Rotation Signal given"
-            print "current angle, %s" % z_rotation
             rate.sleep()
         
     # Stops the robot once exit condition is met
-    print "Stop Signal given"
-    print "current angle, %s" % z_rotation
     rotate_msg.angular.z = 0
     rotation_publisher.publish(rotate_msg)
     result = RotateResult()
