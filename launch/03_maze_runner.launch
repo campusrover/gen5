@@ -1,0 +1,4 @@
+<launch>
+    <node name="maze_runner" pkg="gen5" type="maze_runner.py" output="screen"/>
+    <node name="sigint_catcher" pkg="gen5" type="sigint_catcher.py" output="screen"/>
+</launch>
