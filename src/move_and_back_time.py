@@ -31,13 +31,13 @@ start = time.time() # reset time
 timed_action(start, run_time, forward_command, rate) # Moves straight
 
 start = time.time() # reset time
-timed_action(start, rotate_time, forward_command, rate) # Rotate
+timed_action(start, rotate_time, rotate_command, rate) # Rotate
 
 start = time.time() # reset time
 timed_action(start, run_time, forward_command, rate) # Moves straight
 
 start = time.time() # reset time
-timed_action(start, rotate_time, forward_command, rate) # Rotate
+timed_action(start, rotate_time, rotate_command, rate) # Rotate
 
 cmd_vel_pub.publish(Twist()) # stops the robot
 
