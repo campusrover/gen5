@@ -10,7 +10,11 @@ from nav_msgs.msg import Odometry
 # Action Request Comes in
 def do_run(goal):
 
-    global start_position, current_position
+    global odom, start_position, current_position
+    while odom is None:
+        rate.sleep()
+    if odom is not None:
+        start_position = odom.pose.pose.position
     
     run_publisher = rospy.Publisher('cmd_vel', Twist, queue_size=10)
     run_msg = Twist()
@@ -31,11 +35,13 @@ def do_run(goal):
 # Get current orientation
 def odometryCb(msg):
     #Euler from Quaternion angles
-    global current_position
+    global odom, current_position
+    odom = msg
     current_position = msg.pose.pose.position
 
 def verify_success(start_position, current_position, distance):
     current_distance = euclidean_distance(start_position, current_position)
+    print current_distance
     if  current_distance >= distance:
         return True
     return False
@@ -53,10 +59,11 @@ rospy.Subscriber('odom', Odometry, odometryCb)
 start_position = Point()
 current_position = Point()
 rate = rospy.Rate(10)
+odom = None
 
 # Declare that this node will handle actions
 # When action requests come in, call do_timer method
-server = actionlib.SimpleActionServer('rotate', RotateAction, do_rotate, False)
+server = actionlib.SimpleActionServer('run', RunAction, do_run, False)
 
 # Start it up
 server.start()

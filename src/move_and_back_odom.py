@@ -25,7 +25,9 @@ def run(run_client, distance, run_time):
 
     goal = RunGoal
     goal.distance = distance
+    print goal.distance
     goal.linear_velocity = distance / run_time
+    print goal.linear_velocity
 
     run_client.send_goal(goal)
     # Wait for confirmation
@@ -42,8 +44,9 @@ rotate_angle = 180
 rotate_client = actionlib.SimpleActionClient('rotate', RotateAction)
 rotate_client.wait_for_server()
 
-run_client = actionlib.SimpleActionClient('run', RotateAction)
+run_client = actionlib.SimpleActionClient('run', RunAction)
 run_client.wait_for_server()
+
 
 run(run_client, distance, run_time)
 

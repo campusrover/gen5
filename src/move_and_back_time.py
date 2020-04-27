@@ -12,11 +12,11 @@ cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 def timed_action(start, duration, twist, rate):
     while time.time() - start < duration:
         print time.time() - start
-        cmd_vel_pub.publish(forward_command)
+        cmd_vel_pub.publish(twist)
         rate.sleep()
 
-run_time = 15.0
-distance = 3
+run_time = 10.0
+distance = 2
 rotate_time = 10.0
 rotate_angle = 180
 rate = rospy.Rate(30)
@@ -31,13 +31,13 @@ start = time.time() # reset time
 timed_action(start, run_time, forward_command, rate) # Moves straight
 
 start = time.time() # reset time
-timed_action(start, rotate_time, forward_command, rate) # Rotate
+timed_action(start, rotate_time, rotate_command, rate) # Rotate
 
 start = time.time() # reset time
 timed_action(start, run_time, forward_command, rate) # Moves straight
 
 start = time.time() # reset time
-timed_action(start, rotate_time, forward_command, rate) # Rotate
+timed_action(start, rotate_time, rotate_command, rate) # Rotate
 
 cmd_vel_pub.publish(Twist()) # stops the robot
 

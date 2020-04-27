@@ -4,6 +4,5 @@
 float32 degrees_to_rotate
 float32 angular_velocity
 ---
-# Part 2: the result, to be sent by the server upon completion
+
 ---
-# Part 3: the feedback, to be sent periodically by the server during execution.
