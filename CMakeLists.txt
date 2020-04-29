@@ -64,6 +64,7 @@ add_action_files(
     DIRECTORY action
     FILES
     Rotate.action
+    Run.action
 )
 
 generate_messages(
