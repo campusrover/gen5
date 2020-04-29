@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-
+'''
+Solution file for PA03 Maze. Uses longest distance algorithm.
+'''
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
