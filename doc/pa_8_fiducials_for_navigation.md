@@ -1,7 +1,3 @@
----
-title: "Fiducials for Navigation"
-desc: Respond to fiducials and use them for navigation
----
 ##### Summary
 
 In this assignment we learn how to work with Fiducials to guide navigation. The setting is indoors. There are several fiducials mounted on walls. The fiducials encode identifiers. The Robot is commanded to navigate to the target fiducial by following a trail marked by fiducials.
