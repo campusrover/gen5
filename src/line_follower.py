@@ -103,10 +103,8 @@ while not rospy.is_shutdown():
     # drive forward or turn accordingly 
     twist = Twist()
     if driving_forward:
-        # twist.linear.x = MOVE_SPEED
         twist.angular.z = TURN_SPEED
     else:
-        # twist.angular.z = TURN_SPEED * turn_direction
         twist.angular.z = TURN_SPEED
 
 
