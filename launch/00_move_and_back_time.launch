@@ -1,5 +1,4 @@
 <launch>
     <node name="move_and_back_time" pkg="gen5" type="move_and_back_time.py" output="screen"/>
     <node name="sigint_catcher" pkg="gen5" type="sigint_catcher.py" output="screen"/>
-    <node name="rotate_server" pkg="gen5" type="rotate_server.py" output="screen"/>
 </launch>
