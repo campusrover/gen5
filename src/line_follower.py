@@ -13,8 +13,7 @@ import cv2 as cv
 MOVE = True
 PUBLISH_ROS_IMGS = True
 BRIDGE = CvBridge()
-MOVE_SPEED = 0.15                   # m/s
-TURN_SPEED = 0.5                    # m/s
+MOVE_SPEED = 0.1                   # m/s
 CONTOUR_SIZE_THRESHOLD = 0          # pixels ^ 2
 
 # callback for each camera frame
@@ -24,7 +23,7 @@ def cv_cb(msg):
 
 # draw bounding boxes
 def detect_line(img):
-    global driving_forward; global turn_direction
+    global driving_forward, x_center
 
     # gray scale + blur image
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -35,7 +34,7 @@ def detect_line(img):
     thresh = cv.adaptiveThreshold(blur,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2)
 
     # get contours from image
-    a, contours, hierarchy = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_TC89_KCOS)
+    a, contours, hierarchy = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     try: hierarchy = hierarchy[0]
     except: hierarchy = []
@@ -69,15 +68,20 @@ def detect_line(img):
         # print 'left x: %s' % (x)
         # print 'right x: %s' % (x + w)
 
-        if x > 45 and x+w < 315 and y < 40 and y+h > 200:
+        # if x > 45 and x+w < 315 and y < 40 and y+h > 200:
+        if y < 40 and y+h > 200:
             valid_contours.append(c)
             x_sum = x_sum + x + w/2
 
     if len(valid_contours) > 0:
+        driving_forward = True
         x_center = x_sum / len(valid_contours)
+        print 'x_center: %s' % (x_center)
         lower_center_pt = (x_center, 240)
         upper_center_pt = (x_center, 0)
         cv.line(img, lower_center_pt, upper_center_pt, (0, 255, 0))
+    else:
+        driving_forward = False
     print 'valid contours: %s' % (len(valid_contours))
 
     # publish image with line detection to ROS
@@ -91,11 +95,11 @@ rospy.init_node('line_follower')
 cam_sub = rospy.Subscriber('/camera/image/compressed', CompressedImage, cv_cb)
 cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 img_pub = rospy.Publisher('cv_line_image', Image, queue_size=1)
+x_center = 0
 
 # update at 10 hz
 rate = rospy.Rate(10)
-driving_forward = True
-turn_direction = 1
+driving_forward = False
 
 # control loop
 while not rospy.is_shutdown():
@@ -103,12 +107,8 @@ while not rospy.is_shutdown():
     # drive forward or turn accordingly 
     twist = Twist()
     if driving_forward:
-        # twist.linear.x = MOVE_SPEED
-        twist.angular.z = TURN_SPEED
-    else:
-        # twist.angular.z = TURN_SPEED * turn_direction
-        twist.angular.z = TURN_SPEED
-
+        twist.linear.x = MOVE_SPEED
+        twist.angular.z = (160 - x_center) / 360.0
 
     # publish at 10z
     if MOVE: cmd_vel_pub.publish(twist)
