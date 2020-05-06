@@ -14,7 +14,7 @@ MOVE = True
 PUBLISH_ROS_IMGS = True
 BRIDGE = CvBridge()
 MOVE_SPEED = 0.1                   # m/s
-CONTOUR_SIZE_THRESHOLD = 0          # pixels ^ 2
+CONTOUR_SIZE_THRESHOLD = 0          # pixels ^ 2, currently not in use
 
 # callback for each camera frame
 def cv_cb(msg):
@@ -58,17 +58,14 @@ def detect_line(img):
     
     valid_contours = []
     x_sum = 0
+    # highlight the contour box
     for c in contours:
         x, y, w, h = cv.boundingRect(c)
         lower_center_pt = (x + w/2, y + h)
         upper_center_pt = (x + w/2, y)
         cv.line(img, lower_center_pt, upper_center_pt, (255, 0, 0))
-        # print 'lower y: %s' % (y)
-        # print 'upper y: %s' % (y + h)
-        # print 'left x: %s' % (x)
-        # print 'right x: %s' % (x + w)
 
-        # if x > 45 and x+w < 315 and y < 40 and y+h > 200:
+        # determine valid contours
         if y < 40 and y+h > 200:
             valid_contours.append(c)
             x_sum = x_sum + x + w/2
@@ -104,7 +101,7 @@ driving_forward = False
 # control loop
 while not rospy.is_shutdown():
 
-    # drive forward or turn accordingly 
+    # drive forward or turn based on the average center position of the x value of contour the 
     twist = Twist()
     if driving_forward:
         twist.linear.x = MOVE_SPEED
