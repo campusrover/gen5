@@ -16,8 +16,9 @@ class Follow():
         distanceL45 = msg.ranges[44]
         distanceR45 = msg.ranges[314]
 
+        # If the walls are not too close on the side
         if distanceL90 != 0 or distanceR90 != 0:
-
+            # decide which side is closer to the wall
             if distanceR90 == 0 or distanceL90 < distanceR90 and distanceL90 > 0:
 
                 if distanceL45 == 0:
@@ -40,9 +41,12 @@ class Follow():
                 a_distance = distanceR45
                 self.isLeft = False
 
+            # Set linear offset as the difference between the distance to the wall and desired safe distance
+            # Set angular offset as the sqrt 2 times the perpendicular distance minus the angled distance (at 45 degree angle)
             self.linear_offset_distance = self.safe_distance - p_distance
             self.angular_offset_distance = p_distance * math.sqrt(2) - a_distance
 
+    # Dynamic obstacle offset distance, the closer to the obstacle, the faster it turns
     def obstacle_offset(self, distance):
         if distance == 0:
             self.obstacle_offset_distance = 0
@@ -53,10 +57,12 @@ class Follow():
         else:
             self.obstacle_offset_distance = 0
         
+    # Extrapolate the angular distance when angular distance is beyond the reach of lidar
     def distance_extrapolation(self, angle45, angle90):
         angle45 = 2 * angle90
         return angle45
 
+    # Calculate angular velocity with formula with respect to the offset distances
     def direction_filter(self):
         angular_velocity = -1 * (self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance) if self.isLeft \
             else self.linear_offset_distance + self.angular_offset_distance + self.obstacle_offset_distance
@@ -66,6 +72,7 @@ class Follow():
         if abs(angular_velocity) != self.safe_distance:
             self.max_av_cap(angular_velocity)
 
+    # Caps the speed which the robot turns
     def max_av_cap(self, angular_velocity):
         if angular_velocity > 0.5:
             angular_velocity = 0.5

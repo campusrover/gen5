@@ -77,8 +77,14 @@ Since this project requires collaberation, you may wish to start using Github to
 - Feel free to google for wall following robot and be inspired by what you read. Just don't copy the code, please.
 - Here are some solutions that might be helpful, but please do not limit to these.
   
-### Right hand Rule
-[https://en.wikipedia.org/wiki/Maze_solving_algorithm](https://en.wikipedia.org/wiki/Maze_solving_algorithm) - For this assignment, you can choose either one from Right-Hand Rule (which means you will turn to the rightmost route whenever possible) and Left-hand Rule (which means you will turn left whenever possible). Here are some examples for what you should expect when using Right-hand Rule:
+### Wall Following Algorithm
+For this assignment, you can choose to modify your wall following algorithm from the previous assignment to run the maze. Keep in mind the width of the corridor when you make your adjustment. Some of the places which the algorithm might struggle can be: corners, dead-ends and invalid lidar reading when the robot is too close to the wall.
+
+### Longest Distance Algorithm
+One of the most successful approach from the students of previous years is the 'longest distance algorithm', which looks for the longest unobstructed distance using the lidar and solve the maze by repeatedly finding and moving to the location where the distance between the robot and the location is the longest.
+
+### Your very own Algorithm
+What other approach will you come up with? Don't be afraid to explore unchartered territory!
 
 ### Working with LaserScan data
 Here is a great video which provides almost everything you need to understand to manipulate the LaserScan data: [Reading Laserscan Data](http://www.theconstructsim.com/read-laserscan-data/) The most important field that you need to understand is the "ranges". You can access the reading of a specific angle by using "range[index]", and access a subarray by using "range[index0:index1]"

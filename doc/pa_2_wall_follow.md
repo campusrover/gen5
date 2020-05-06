@@ -1,9 +1,8 @@
 # PA2: Wall Follow
 
 ## Summary
-Write ROS code that allows Turtlebot3 to follow a wall or parameter. 
+Write ROS code that allows Turtlebot3 to follow a wall or perimeter. You are free to refer to hints for inspiration, and are encouraged to experiment with novel ideas. Write ROS code to have the robot find a wall, drive up to .5 meters of it, then turn and start following it at that distance
 
-You are free to refer to hints for inspiration, and are encouraged to experiment with novel ideas.
 
 ### Equipment
 - TurtleBot3
@@ -13,10 +12,13 @@ You are free to refer to hints for inspiration, and are encouraged to experiment
 - working with and processing Lidar data
 - processing with and filtering sensor noise
 - using math (especially geometry) to solve real world robotics problems
-  
-### ROS ropics
-- /scan
-- /cmd_vel
+- How to use PID processing to make the robot behave reasonably
+- Simple state management to control the behavior of the robot
+
+### Knowledge you will gain
+- /scan Topic
+- /cmd_vel Topic
+- PID processing
 
 ### ROS message types
 - [sensor_msgs/LaserScan Message](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/LaserScan.html)

@@ -14,10 +14,12 @@ We use a slightly more sophisticated approach. The robot reports what position a
 - designing and writing ROS action
 - invoking action using an action client
 - writing a ros callback function in python
-  
-### ROS ropics
-- /cmd_vel
-- /odom
+
+##### Content knowledge you will gain:
+
+- /cmd_vel 
+- Twist
+- odom
 
 ### ROS message types
 - [geometry_msgs/Twist.msg](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/LaserScan.html)

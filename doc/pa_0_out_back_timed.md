@@ -6,14 +6,17 @@ Write ROS code to drive the robot out 1 meters, rotate 180 degrees, return and r
 The simplest way of doing this is by commanding the robot to go at a certain speed for a certain amount of time.
 
 ### Equipment
-- TurtleBot3
+- TB3-ROS Simulation Environment
 
 ### Skills you will learn:
 - writing a basic ROS node with publisher
 - writing a launch file
 - simulating a ros program using Gazebo
-- installing and running the program on Turtlebot3
-  
+
+### Content knowledge you will gain:
+
+* /cmd_vel and Twist
+ 
 ### ROS ropics
 - /cmd_vel
 
@@ -44,3 +47,4 @@ The key "trick" here is that the way you get the robot to drive a certain distan
 - link to instruction write a launch file
 - link to chmod +x the python scripts and `catkin_make`
 - link to run ros in simulation
+

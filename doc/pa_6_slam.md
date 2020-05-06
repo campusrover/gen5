@@ -1,34 +1,3 @@
-#### Summary
-
-Using the same track again, this time there will be obstacles, both stationary and moving and the robot traverses that confidently as well, without colliding with any obstacles. This assignment will combine the previous track following algorithm with AMCL and /scan to also ensure that the robot will not collide with an obstacle. It will drive around it.
-
-##### Equipment
-
-* Track is made with red blocks
-* TB3 with Lidar
-
-##### Skills you will learn:
-
-* Using move_base to detect and avoid obstacles
-* Debugging a multi-node ROS program
-
-##### Content knowledge you will gain:
-
-* How ROS processes Lidar or visual data
-* How ROS reports the presence of obstacles and does short range replanning
-
-##### Examples of this in the teal world
-* supply a link or paper or video)
-
-##### What to hand in
-* Zip up your source code
-* A video (informal) of the robot executing the code
-
-#### Tasks
-
-##### Think through the design
-* 
-
 
 
 #### Introduction
@@ -94,3 +63,35 @@ $ rosrun map_server map_server $HOME/map.yaml
 <%= code_end %> 
 
 This file will once again launch RViz, displaying the map which was just created. Before we can navigate, the robot needs to be localized on the map, and this can be done in RViz. Using the `2D Pose Estimate` button, give the robot an estimate of where it is located on the map. Once the robot is in the correct position, a `2D Nav Goal` can be sent through RViz in the same way. With a 2D Nav Goal set, the robot should begin to navigate to the desired location.
+
+#### Summary
+
+Using the same track again, this time there will be obstacles, both stationary and moving and the robot traverses that confidently as well, without colliding with any obstacles. This assignment will combine the previous track following algorithm with AMCL and /scan to also ensure that the robot will not collide with an obstacle. It will drive around it.
+
+##### Equipment
+
+* Track is made with red blocks
+* TB3 with Lidar
+
+##### Skills you will learn:
+
+* Using move_base to detect and avoid obstacles
+* Debugging a multi-node ROS program
+
+##### Content knowledge you will gain:
+
+* How ROS processes Lidar or visual data
+* How ROS reports the presence of obstacles and does short range replanning
+
+##### Examples of this in the teal world
+* supply a link or paper or video)
+
+##### What to hand in
+* Zip up your source code
+* A video (informal) of the robot executing the code
+
+#### Tasks
+
+##### Think through the design
+* 
+
