@@ -1,0 +1,3 @@
+<launch>
+    <node name="fidmap" pkg="gen5" type="fidmap.py" output="screen"/>
+</launch>
