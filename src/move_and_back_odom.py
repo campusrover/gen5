@@ -25,9 +25,7 @@ def run(run_client, distance, run_time):
 
     goal = RunGoal
     goal.distance = distance
-    print goal.distance
     goal.linear_velocity = distance / run_time
-    print goal.linear_velocity
 
     run_client.send_goal(goal)
     # Wait for confirmation

@@ -20,11 +20,9 @@ def do_rotate(goal):
 
     # Initialize starting angle
     start_angle = z_rotation
-    print 'Starting Angle, %s' % start_angle
     target_angle = start_angle + relative_angle
     if target_angle > math.radians(180):
         target_angle -= math.radians(360)
-    print 'Target Angle, %s' % target_angle
 
     # Verify success condition
     if z_rotation < target_angle:

@@ -54,8 +54,6 @@ def detect_line(img):
 
     if max_x - min_x > 0 and max_y - min_y > 0:
         cv.rectangle(img, (min_x, min_y), (max_x, max_y), (255, 0, 0), 2)
-
-    print "contours: %s" % (len(contours))
     
     valid_contours = []
     x_sum = 0
@@ -64,10 +62,6 @@ def detect_line(img):
         lower_center_pt = (x + w/2, y + h)
         upper_center_pt = (x + w/2, y)
         cv.line(img, lower_center_pt, upper_center_pt, (255, 0, 0))
-        # print 'lower y: %s' % (y)
-        # print 'upper y: %s' % (y + h)
-        # print 'left x: %s' % (x)
-        # print 'right x: %s' % (x + w)
 
         if x > 45 and x+w < 315 and y < 40 and y+h > 200:
             valid_contours.append(c)
@@ -78,7 +72,6 @@ def detect_line(img):
         lower_center_pt = (x_center, 240)
         upper_center_pt = (x_center, 0)
         cv.line(img, lower_center_pt, upper_center_pt, (0, 255, 0))
-    print 'valid contours: %s' % (len(valid_contours))
 
     # publish image with line detection to ROS
     if PUBLISH_ROS_IMGS:

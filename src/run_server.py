@@ -41,7 +41,6 @@ def odometryCb(msg):
 
 def verify_success(start_position, current_position, distance):
     current_distance = euclidean_distance(start_position, current_position)
-    print current_distance
     if  current_distance >= distance:
         return True
     return False
