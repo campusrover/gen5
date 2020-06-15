@@ -39,8 +39,6 @@ How to Run in simulation:
 
 #### PA06 Fiducial Follow
 - Code: Finished
-- Yet to be done:
-    Fix incorrect approach angle issue
 - Starter Code: Finished
 - Launch File: Finished
 - Status: Tested in gazebo simulation
